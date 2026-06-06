@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>印昱橙 — 室内设计师</title>
+<style>
+/* ===== CSS Reset & Variables ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary:    #faf8f5;
+  --bg-secondary:  #ffffff;
+  --bg-dark:       #2c241e;
+  --bg-darkest:    #1e1814;
+  --text-heading:  #1a1a1a;
+  --text-body:     #3d3229;
+  --text-aux:      #4a3f36;
+  --text-muted:    #8c7b6e;
+  --text-muted-2:  #6b5e53;
+  --text-dark-bg:  #f0e8e0;
+  --text-dark-muted: #b8a99c;
+  --accent:        #b8977e;
+  --accent-hover:  #8c6b55;
+  --border:        #d4c5b9;
+  --honor-bg:      #fdf2e9;
+  --honor-text:    #a0522d;
+  --font-serif:    'Noto Serif SC', 'SimSun', 'STSong', serif;
+  --font-sans:     'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --shadow-sm:     0 2px 12px rgba(0,0,0,0.04);
+  --shadow-md:     0 6px 20px rgba(0,0,0,0.08);
+  --shadow-lg:     0 20px 60px rgba(0,0,0,0.08);
+  --shadow-xl:     0 8px 40px rgba(0,0,0,0.12);
+  --radius-sm:     4px;
+  --radius-md:     8px;
+  --radius-pill:   20px;
+  --radius-capsule: 30px;
+  --transition:    0.3s ease;
+  --transition-img: 0.6s ease;
+  --nav-height:    64px;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-body);
+  background: var(--bg-primary);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+body.loaded { opacity: 1; }
+
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.3; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+/* ===== Utility ===== */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+.section { padding: 120px 0; }
+.section-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.section-title {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 56px;
+  color: var(--text-heading);
+}
+.section-title .dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-left: 8px;
+  vertical-align: middle;
+  margin-bottom: 4px;
+}
+
+/* ===== Scroll Reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ===== Navigation ===== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(212,197,185,0.5);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+.nav.scrolled {
+  box-shadow: 0 1px 20px rgba(0,0,0,0.06);
+}
+.nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: 2px;
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.nav-links a {
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover,
+.nav-links a.active { color: var(--accent); }
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none; border: none;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--text-heading);
+  transition: all 0.3s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0; right: 0;
+    background: rgba(250,248,245,0.95);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    border-bottom: 1px solid rgba(212,197,185,0.3);
+  }
+  .nav-links.open { max-height: 400px; padding: 16px 0; }
+  .nav-links a {
+    padding: 12px 40px;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(212,197,185,0.15);
+  }
+  .nav-links a:last-child { border-bottom: none; }
+  .nav-toggle { display: flex; }
+}
+
+/* ===== PDF Button ===== */
+.pdf-btn {
+  position: fixed;
+  top: 80px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(184,151,126,0.3);
+  transition: all var(--transition);
+}
+.pdf-btn:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 6px 24px rgba(184,151,126,0.4);
+  transform: translateY(-1px);
+}
+.pdf-btn .pdf-icon { font-size: 16px; }
+@media (max-width: 768px) {
+  .pdf-btn {
+    top: auto;
+    bottom: 24px;
+    right: 16px;
+    padding: 12px 16px;
+    font-size: 12px;
+    border-radius: 50px;
+  }
+}
+
+/* ===== Hero ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--bg-primary);
+  position: relative;
+  padding-top: var(--nav-height);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-photo {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 36px;
+  box-shadow: var(--shadow-xl);
+  border: 3px solid rgba(255,255,255,0.6);
+}
+.hero-name {
+  font-family: var(--font-serif);
+  font-size: 72px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  color: var(--text-heading);
+  margin-bottom: 20px;
+}
+.hero-tagline {
+  font-size: 18px;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 48px;
+  line-height: 1.8;
+}
+.hero-contact {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 15px;
+  color: var(--text-muted-2);
+}
+.hero-contact .hc-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-contact .hc-icon { font-size: 16px; }
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--border);
+  font-size: 12px;
+  letter-spacing: 2px;
+  animation: bounce 2s infinite;
+}
+.hero-scroll .arrow { font-size: 18px; }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ===== About ===== */
+.about { background: var(--bg-secondary); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+.about-text p {
+  font-size: 17px;
+  color: var(--text-body);
+  margin-bottom: 20px;
+  text-align: justify;
+  line-height: 2;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.highlight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent);
+}
+.highlight-num {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 0.9;
+  min-width: 80px;
+}
+.highlight-info { padding-top: 2px; }
+.highlight-info .hi-title { font-size: 15px; font-weight: 600; color: var(--text-heading); margin-bottom: 4px; }
+.highlight-info .hi-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+/* ===== Projects ===== */
+.projects { background: var(--bg-primary); }
+.project-card {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-bottom: 100px;
+}
+.project-card:last-child { margin-bottom: 0; }
+.project-card.reverse .project-img-wrap { order: 1; }
+.project-card.reverse .project-info { order: 0; }
+.project-img-wrap {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 4/3;
+  background: #e8e4df;
+}
+.project-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-img);
+}
+.project-img-wrap:hover img { transform: scale(1.03); }
+.project-img-wrap .img-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #e8e4df 0%, #d8d2cb 100%);
+}
+.project-num {
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.project-name {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-heading);
+}
+.project-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.project-meta-tag {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 1px;
+  border: 1px solid var(--border);
+}
+.project-honor {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--honor-bg);
+  color: var(--honor-text);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.project-desc {
+  font-size: 16px;
+  color: var(--text-aux);
+  line-height: 1.9;
+  margin-bottom: 24px;
+}
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+  transition: all var(--transition);
+  font-weight: 500;
+}
+.project-link:hover { color: var(--accent-hover); border-color: var(--accent-hover); }
+.project-link .arrow-right {
+  display: inline-block;
+  transition: transform var(--transition);
+}
+.project-link:hover .arrow-right { transform: translateX(4px); }
+
+/* ===== Experience ===== */
+.experience { background: var(--bg-secondary); }
+.timeline {
+  position: relative;
+  padding-left: 48px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 16px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 52px;
+  padding-bottom: 0;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -40px; top: 6px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg-secondary);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.timeline-item.edu::before {
+  background: var(--border);
+  box-shadow: 0 0 0 2px var(--border);
+}
+.timeline-period {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 500;
+  background: var(--bg-primary);
+  padding: 2px 12px;
+  border-radius: var(--radius-pill);
+}
+.timeline-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.timeline-role {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+.timeline-org {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.timeline-detail {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.timeline-detail li {
+  font-size: 15px;
+  color: var(--text-aux);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.7;
+}
+.timeline-detail li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+/* ===== Skills ===== */
+.skills { background: var(--bg-primary); }
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px 64px;
+}
+.skills-chart-col { grid-column: 1; }
+.skills-tags-col { grid-column: 2; }
+
+/* Skill Bars */
+.skill-bar-group { margin-bottom: 32px; }
+.skill-bar-group:last-child { margin-bottom: 0; }
+.skill-bar-label {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.skill-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.skill-bar-icon {
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+.skill-bar-info { flex: 1; min-width: 0; }
+.skill-bar-name-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.skill-bar-name { font-size: 14px; font-weight: 500; color: var(--text-heading); }
+.skill-bar-pct { font-size: 12px; color: var(--text-muted); }
+.skill-bar-track {
+  height: 4px;
+  background: #e8e4df;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0;
+  transition: width 1.2s ease 0.3s;
+}
+.skill-bar-fill.animated { /* width set inline */ }
+
+/* Skill Tag Cloud */
+.skill-tag-group { margin-bottom: 32px; }
+.skill-tag-group:last-child { margin-bottom: 0; }
+.skill-tag-label {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-capsule);
+  font-size: 13px;
+  color: var(--text-body);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  border: 1px solid transparent;
+}
+.skill-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+.skill-tag .tag-icon { font-size: 16px; }
+
+/* Certificates */
+.certs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 48px;
+}
+.cert-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border-left: 3px solid var(--accent);
+}
+.cert-card .cert-icon { font-size: 24px; }
+.cert-card .cert-text { font-size: 14px; color: var(--text-body); font-weight: 500; }
+
+/* ===== CTA / Contact ===== */
+.cta {
+  background: var(--bg-dark);
+  color: var(--border);
+  text-align: center;
+}
+.cta .section-label { color: var(--accent); }
+.cta .section-title { color: var(--bg-primary); }
+.cta-intro {
+  font-size: 17px;
+  color: var(--text-dark-muted);
+  margin-bottom: 56px;
+  line-height: 1.8;
+}
+.cta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.cta-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 36px 24px;
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--radius-md);
+  transition: background var(--transition), transform var(--transition);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+a.cta-card { cursor: pointer; }
+a.cta-card:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+.cta-card-icon { font-size: 32px; }
+.cta-card-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.cta-card-value { font-size: 15px; color: var(--text-dark-bg); word-break: break-all; }
+.cta-card-hint { font-size: 12px; color: var(--text-muted); font-style: italic; }
+
+/* ===== Footer ===== */
+.footer {
+  background: var(--bg-darkest);
+  color: var(--text-muted-2);
+  text-align: center;
+  padding: 28px 0;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .skills-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .skills-chart-col, .skills-tags-col { grid-column: auto; }
+  .project-card { gap: 40px; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 24px; }
+  .section { padding: 80px 0; }
+
+  .hero-photo { width: 100px; height: 100px; }
+  .hero-name { font-size: 40px; letter-spacing: 6px; }
+  .hero-tagline { font-size: 15px; }
+  .hero-contact { flex-direction: column; gap: 12px; align-items: center; }
+
+  .section-title { font-size: 28px; margin-bottom: 40px; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-text p { font-size: 15px; }
+  .highlight-num { font-size: 36px; min-width: 60px; }
+  .highlight-card { padding: 16px; gap: 14px; }
+
+  .project-card, .project-card.reverse {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 64px;
+  }
+  .project-card.reverse .project-img-wrap { order: 0; }
+  .project-name { font-size: 22px; }
+  .project-desc { font-size: 15px; }
+
+  .timeline { padding-left: 34px; }
+  .timeline::before { left: 12px; }
+  .timeline-item::before { left: -31px; width: 9px; height: 9px; }
+  .timeline-role { font-size: 16px; }
+  .timeline-detail li { font-size: 14px; }
+
+  .certs-row { grid-template-columns: 1fr; }
+
+  .cta-grid { grid-template-columns: 1fr; gap: 16px; max-width: 400px; }
+  .cta-intro { font-size: 15px; }
+}
+
+/* ===== PDF / Print Styles ===== */
+#pdfContent { display: none; }
+
+@media print {
+  /* Hide screen-only elements */
+  body > *:not(#pdfContent) { display: none !important; }
+
+  /* Show PDF content */
+  #pdfContent {
+    display: block !important;
+    position: absolute;
+    top: 0; left: 0;
+    width: 210mm;
+    padding: 18mm 20mm 16mm 20mm;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+    color: #1a1a1a;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* PDF Header */
+  .pdf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 10pt;
+    margin-bottom: 14pt;
+    border-bottom: 1.5pt solid #b8977e;
+  }
+  .pdf-name {
+    font-family: 'Noto Serif SC', 'SimSun', serif;
+    font-size: 22pt;
+    font-weight: 700;
+    letter-spacing: 3pt;
+    margin: 0 0 4pt 0;
+    color: #1a1a1a;
+  }
+  .pdf-title {
+    font-size: 9pt;
+    color: #8c7b6e;
+    margin: 0;
+    letter-spacing: 0.5pt;
+  }
+  .pdf-contact-right {
+    text-align: right;
+    font-size: 8pt;
+    color: #4a3f36;
+    line-height: 1.8;
+  }
+  .pdf-contact-right span { display: block; }
+
+  /* Section titles */
+  .pdf-section-title {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #b8977e;
+    letter-spacing: 2pt;
+    text-transform: uppercase;
+    margin: 16pt 0 8pt 0;
+    padding-bottom: 4pt;
+    border-bottom: 0.5pt solid #d4c5b9;
+  }
+
+  /* Experience & Project items */
+  .pdf-item {
+    margin-bottom: 6pt;
+    page-break-inside: avoid;
+  }
+  .pdf-item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1pt;
+  }
+  .pdf-item-role {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .pdf-item-date {
+    font-size: 8pt;
+    color: #b8977e;
+    letter-spacing: 0.5pt;
+  }
+  .pdf-item-sub {
+    font-size: 8pt;
+    color: #8c7b6e;
+    margin: 0 0 1pt 0;
+  }
+  .pdf-item-desc {
+    font-size: 8pt;
+    color: #3d3229;
+    margin: 2pt 0 0 0;
+    line-height: 1.5;
+  }
+  .pdf-link {
+    font-size: 7.5pt;
+    color: #b8977e;
+    margin: 1pt 0 0 0;
+  }
+  .pdf-link a {
+    color: #b8977e;
+    text-decoration: underline;
+  }
+
+  /* Skills */
+  .pdf-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4pt;
+    margin-bottom: 6pt;
+  }
+  .pdf-skill {
+    font-size: 7.5pt;
+    color: #3d3229;
+    background: #f2eeea;
+    padding: 2pt 8pt;
+    border-radius: 10pt;
+    letter-spacing: 0.3pt;
+  }
+
+  /* Certs */
+  .pdf-certs {
+    margin-top: 2pt;
+    display: flex;
+    gap: 16pt;
+  }
+  .pdf-certs span {
+    font-size: 7.5pt;
+    color: #4a3f36;
+  }
+
+  /* Education */
+  .pdf-edu {
+    margin-top: 8pt;
+    font-size: 7.5pt;
+    color: #8c7b6e;
+    border-top: 0.5pt solid #d4c5b9;
+    padding-top: 6pt;
+    display: flex;
+    gap: 16pt;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">YIN YUCHENG</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">关于我</a>
+      <a href="#projects">作品项目</a>
+      <a href="#experience">经历履历</a>
+      <a href="#skills">技能背书</a>
+      <a href="#contact">联系合作</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+  <button class="pdf-btn" id="pdfBtn" title="下载简历 PDF">
+    <span class="pdf-icon">📄</span> 下载 PDF
+  </button>
+  <div class="hero-content container reveal">
+    <img class="hero-photo" src="个人照片.jpg" alt="印昱橙">
+    <h1 class="hero-name">印 昱 橙</h1>
+    <p class="hero-tagline">
+      12 年全流程室内设计师<br>
+      从概念到落地，创造兼具功能与美学的现代居所
+    </p>
+    <div class="hero-contact">
+      <span class="hc-item"><span class="hc-icon">📞</span> +86 197-3889-3002</span>
+      <span class="hc-item"><span class="hc-icon">✉️</span> 109649895@qq.com</span>
+      <span class="hc-item"><span class="hc-icon">📍</span> 江苏省扬中市</span>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <span class="arrow">↓</span>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section class="about section" id="about">
+  <div class="container">
+    <p class="section-label reveal">About</p>
+    <h2 class="section-title reveal reveal-delay-1">关于我<span class="dot"></span></h2>
+    <div class="about-grid">
+      <div class="about-text reveal reveal-delay-2">
+        <p>我拥有 12 年室内设计经验，深耕从概念方案到施工落地的全流程。对空间动线、材料质感与光影氛围有敏锐把控，致力于创造兼具功能性与情感体验的现代居所。我相信好的设计首先是解决问题，然后在解决问题中传递美学价值。</p>
+        <p>职业生涯从助理设计师起步，历经商业空间、别墅大宅等多类型项目锤炼，现为独立设计师。曾主导 1600㎡ 山地豪宅「龙山豪庭」并荣获马来西亚 MFID 至尊殊荣"最佳国际豪华豪宅设计"，也操刀过 500㎡ 顶层复式「尚海荟」等代表性住宅。累计参与项目超过 30 个，积累了扎实的现场经验与跨专业协调能力。</p>
+      </div>
+      <div class="about-highlights reveal reveal-delay-3">
+        <div class="highlight-card">
+          <span class="highlight-num" data-count="12">0</span>
+          <div class="highlight-info">
+            <div class="hi-title">年设计经验</div>
+            <div class="hi-desc">从概念到落地的全流程把控</div>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <span class="highlight-num" data-count="30">0</span>
+          <div class="highlight-info">
+            <div class="hi-title">累计参与项目</div>
+            <div class="hi-desc">住宅大宅 &amp; 商业空间</div>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <span class="highlight-num">MFID</span>
+          <div class="highlight-info">
+            <div class="hi-title">马来西亚国宝奖</div>
+            <div class="hi-desc">最佳国际豪华豪宅设计（2024.03）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Projects ===== -->
+<section class="projects section" id="projects">
+  <div class="container">
+    <p class="section-label reveal">Projects</p>
+    <h2 class="section-title reveal reveal-delay-1">作品与项目<span class="dot"></span></h2>
+
+    <!-- Project 1: 龙山豪庭 -->
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-img-wrap">
+        <img src="龙山豪庭截图.png" alt="无锡龙山豪庭" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-placeholder" style="display:none;">龙山豪庭 · 1600㎡</div>
+      </div>
+      <div class="project-info">
+        <p class="project-num">01 / 03</p>
+        <h3 class="project-name">无锡 · 龙山豪庭</h3>
+        <div class="project-meta-row">
+          <span class="project-meta-tag">2021</span>
+          <span class="project-meta-tag">主案设计</span>
+          <span class="project-meta-tag">1600㎡</span>
+          <span class="project-meta-tag">山地豪宅</span>
+        </div>
+        <div class="project-honor">🏅 MFID 至尊殊荣 — 最佳国际豪华豪宅设计</div>
+        <p class="project-desc">
+          以「现代性」（modernique）的姿态屹立于山丘之上。大面积落地窗引入自然光与山景，模糊室内与户外的边界，让居住成为一场与自然的持续对话。
+        </p>
+        <a href="https://www.720yun.com/t/4d5jursnka0?scene_id=21706511" target="_blank" rel="noopener" class="project-link">
+          查看 720° 全景 <span class="arrow-right">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 2: 尚海荟 -->
+    <div class="project-card reverse reveal reveal-delay-3">
+      <div class="project-img-wrap">
+        <img src="尚海荟截图.png" alt="江阴尚海荟" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-placeholder" style="display:none;">尚海荟 · 500㎡</div>
+      </div>
+      <div class="project-info">
+        <p class="project-num">02 / 03</p>
+        <h3 class="project-name">江阴 · 尚海荟</h3>
+        <div class="project-meta-row">
+          <span class="project-meta-tag">2022</span>
+          <span class="project-meta-tag">主案设计</span>
+          <span class="project-meta-tag">500㎡</span>
+          <span class="project-meta-tag">顶层复式</span>
+        </div>
+        <p class="project-desc">
+          顶层复式公寓，业主养有三只猫。通过错层动线与定制猫道系统实现人宠共居，为宠物预留专属宅邸的同时，让整个家成为它们自由活动的场域。
+        </p>
+        <a href="https://www.720yun.com/t/2b8jv7smrf2?scene_id=21321464" target="_blank" rel="noopener" class="project-link">
+          查看 720° 全景 <span class="arrow-right">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 3: 明湖苑 -->
+    <div class="project-card reveal reveal-delay-4">
+      <div class="project-img-wrap">
+        <img src="明湖苑截图.png" alt="无锡明湖苑" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-placeholder" style="display:none;">明湖苑 · 550㎡</div>
+      </div>
+      <div class="project-info">
+        <p class="project-num">03 / 03</p>
+        <h3 class="project-name">无锡 · 明湖苑</h3>
+        <div class="project-meta-row">
+          <span class="project-meta-tag">主案设计</span>
+          <span class="project-meta-tag">550㎡</span>
+          <span class="project-meta-tag">人文居所</span>
+        </div>
+        <p class="project-desc">
+          克制而温暖的现代人文居所。将自然材质、柔和光线与流畅动线编织为一体，在 550㎡ 的空间中强调人居尺度与情感归属，打造一处真正"为人而设计"的静谧空间。
+        </p>
+        <a href="https://www.720yun.com/t/4d5jursnka0?scene_id=21706511" target="_blank" rel="noopener" class="project-link">
+          查看 720° 全景 <span class="arrow-right">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Experience ===== -->
+<section class="experience section" id="experience">
+  <div class="container">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal reveal-delay-1">经历与履历<span class="dot"></span></h2>
+    <div class="timeline">
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <span class="timeline-period">2022.08 — 至今</span>
+        <div class="timeline-header">
+          <span class="timeline-role">独立设计师</span>
+          <span class="timeline-org">扬中</span>
+        </div>
+        <ul class="timeline-detail">
+          <li>独立完成项目，从设计到施工全程跟进</li>
+          <li>陪同业主进行材料选样，确保落地效果</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <span class="timeline-period">2018.11 — 2022.05</span>
+        <div class="timeline-header">
+          <span class="timeline-role">主案设计师</span>
+          <span class="timeline-org">无锡 · 观塘上院吾研工作室</span>
+        </div>
+        <ul class="timeline-detail">
+          <li>完成 10+ 别墅项目，从概念提案到施工交底全程跟进</li>
+          <li>协调深化团队完成施工图及材料样板，现场监督关键节点</li>
+          <li>建立常用材质及灯具库，提升团队出图效率 20%</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <span class="timeline-period">2016.04 — 2018.06</span>
+        <div class="timeline-header">
+          <span class="timeline-role">室内设计师</span>
+          <span class="timeline-org">无锡 · 半两设计咨询有限公司</span>
+        </div>
+        <ul class="timeline-detail">
+          <li>合作完成多个商业空间规划布置（咖啡店、买手店等）</li>
+          <li>协助软装物料选型与采购清单制作，对接供应商并控制成本</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <span class="timeline-period">2014.03 — 2016.02</span>
+        <div class="timeline-header">
+          <span class="timeline-role">助理设计师</span>
+          <span class="timeline-org">苏州 · 印象设计</span>
+        </div>
+        <ul class="timeline-detail">
+          <li>协助主创完成量房、CAD 放图、SketchUp 建模及效果图后期处理</li>
+          <li>累计参与 20+ 个项目</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item edu reveal reveal-delay-4">
+        <span class="timeline-period">2012.09 — 2013.07</span>
+        <div class="timeline-header">
+          <span class="timeline-role">上海大学 · 环境设计（室内方向）</span>
+          <span class="timeline-org">专科</span>
+        </div>
+      </div>
+
+      <div class="timeline-item edu reveal reveal-delay-4">
+        <span class="timeline-period">2009.09 — 2012.07</span>
+        <div class="timeline-header">
+          <span class="timeline-role">昆山登云科技学院 · 电气自动化</span>
+          <span class="timeline-org">专科</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== Skills ===== -->
+<section class="skills section" id="skills">
+  <div class="container">
+    <p class="section-label reveal">Skills &amp; Credentials</p>
+    <h2 class="section-title reveal reveal-delay-1">技能与背书<span class="dot"></span></h2>
+
+    <div class="skills-layout">
+      <!-- Left: Skill proficiency bars -->
+      <div class="skills-chart-col reveal reveal-delay-2">
+        <div class="skill-bar-group">
+          <div class="skill-bar-label">💻 软件熟练度</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">⬜</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">AutoCAD</span>
+                <span class="skill-bar-pct">95%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">📦</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">SketchUp</span>
+                <span class="skill-bar-pct">90%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">🎬</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">3ds Max + V-Ray</span>
+                <span class="skill-bar-pct">85%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">🖌️</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">Adobe Photoshop</span>
+                <span class="skill-bar-pct">80%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-bar-group">
+          <div class="skill-bar-label">📖 专业能力</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">🧍</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">人体工程学</span>
+                <span class="skill-bar-pct">90%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">💡</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">灯光设计</span>
+                <span class="skill-bar-pct">88%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">🪨</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">材料选配</span>
+                <span class="skill-bar-pct">85%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-icon">🛋️</div>
+            <div class="skill-bar-info">
+              <div class="skill-bar-name-row">
+                <span class="skill-bar-name">软装搭配</span>
+                <span class="skill-bar-pct">82%</span>
+              </div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="82"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Tag cloud -->
+      <div class="skills-tags-col reveal reveal-delay-3">
+        <div class="skill-tag-group">
+          <div class="skill-tag-label">🎨 方案设计</div>
+          <div class="skill-tags">
+            <span class="skill-tag"><span class="tag-icon">📐</span>概念方案</span>
+            <span class="skill-tag"><span class="tag-icon">📏</span>平面布局</span>
+            <span class="skill-tag"><span class="tag-icon">🖼️</span>效果图表现</span>
+            <span class="skill-tag"><span class="tag-icon">📋</span>施工图深化</span>
+          </div>
+        </div>
+
+        <div class="skill-tag-group">
+          <div class="skill-tag-label">📖 专业知识</div>
+          <div class="skill-tags">
+            <span class="skill-tag"><span class="tag-icon">🧍</span>人体工程学</span>
+            <span class="skill-tag"><span class="tag-icon">🪨</span>材料选配</span>
+            <span class="skill-tag"><span class="tag-icon">💡</span>灯光设计</span>
+            <span class="skill-tag"><span class="tag-icon">🛋️</span>软装搭配</span>
+            <span class="skill-tag"><span class="tag-icon">💰</span>预算估算</span>
+          </div>
+        </div>
+
+        <div class="skill-tag-group">
+          <div class="skill-tag-label">🤝 沟通与管理</div>
+          <div class="skill-tags">
+            <span class="skill-tag"><span class="tag-icon">🎯</span>客户需求分析</span>
+            <span class="skill-tag"><span class="tag-icon">🔗</span>跨专业协调</span>
+            <span class="skill-tag"><span class="tag-icon">🔧</span>施工问题解决</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certificates -->
+    <div class="certs-row reveal reveal-delay-4">
+      <div class="cert-card">
+        <span class="cert-icon">📜</span>
+        <span class="cert-text">中国室内装饰协会（CIDA）室内设计师资格</span>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">✅</span>
+        <span class="cert-text">Autodesk AutoCAD 认证专业人员</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA / Contact ===== -->
+<section class="cta section" id="contact">
+  <div class="container">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="section-title reveal reveal-delay-1">联系与合作<span class="dot"></span></h2>
+    <p class="cta-intro reveal reveal-delay-2">无论是住宅项目、商业空间设计，还是设计咨询<br>——期待与你聊聊你的空间愿景。</p>
+    <div class="cta-grid reveal reveal-delay-3">
+      <a href="mailto:109649895@qq.com" class="cta-card">
+        <span class="cta-card-icon">✉️</span>
+        <span class="cta-card-label">邮箱</span>
+        <span class="cta-card-value">109649895@qq.com</span>
+      </a>
+      <div class="cta-card">
+        <span class="cta-card-icon">💬</span>
+        <span class="cta-card-label">微信</span>
+        <span class="cta-card-value">待补充</span>
+        <span class="cta-card-hint">请提供微信号</span>
+      </div>
+      <div class="cta-card">
+        <span class="cta-card-icon">📅</span>
+        <span class="cta-card-label">预约咨询</span>
+        <span class="cta-card-value">待补充</span>
+        <span class="cta-card-hint">请提供预约方式</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 印昱橙 · 室内设计师</p>
+  </div>
+</footer>
+
+<!-- ===== JavaScript ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== Page Load =====
+  window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+  });
+
+  // ===== Mobile Nav Toggle =====
+  var navToggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', function() {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+
+  // Close nav on link click (mobile)
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // ===== Nav scroll effect =====
+  var nav = document.getElementById('nav');
+  var sections = document.querySelectorAll('section[id]');
+  var navAnchors = navLinks.querySelectorAll('a');
+
+  function updateNav() {
+    var scrollY = window.pageYOffset;
+
+    // Shadow on scroll
+    if (scrollY > 10) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+
+    // Active link
+    var current = '';
+    sections.forEach(function(section) {
+      var sectionTop = section.offsetTop - 100;
+      if (scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navAnchors.forEach(function(a) {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) {
+        a.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', updateFn);
+  var ticking = false;
+  function updateFn() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        updateNav();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  // ===== Scroll Reveal =====
+  var revealEls = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // ===== Count-up Animation for Highlight Numbers =====
+  var countEls = document.querySelectorAll('.highlight-num[data-count]');
+  var countObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-count'), 10);
+        var duration = 1500;
+        var startTime = null;
+
+        function animate(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          // Ease-out
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = Math.round(eased * target);
+          el.textContent = current + '+';
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            el.textContent = target + '+';
+          }
+        }
+        requestAnimationFrame(animate);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  countEls.forEach(function(el) {
+    countObserver.observe(el);
+  });
+
+  // ===== Animate Skill Bars =====
+  var skillBars = document.querySelectorAll('.skill-bar-fill[data-width]');
+  var barObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var bar = entry.target;
+        bar.style.width = bar.getAttribute('data-width') + '%';
+        barObserver.unobserve(bar);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  skillBars.forEach(function(bar) {
+    barObserver.observe(bar);
+  });
+
+})();
+</script>
+
+<!-- ===== PDF Print Content (hidden on screen) ===== -->
+<div id="pdfContent">
+  <!-- Header -->
+  <div class="pdf-header">
+    <div>
+      <h1 class="pdf-name">印昱橙</h1>
+      <p class="pdf-title">室内设计师 · 12年全流程经验</p>
+    </div>
+    <div class="pdf-contact-right">
+      <span>+86 197-3889-3002</span>
+      <span>109649895@qq.com</span>
+      <span>江苏省扬中市</span>
+    </div>
+  </div>
+
+  <!-- Experience -->
+  <h2 class="pdf-section-title">工作经历</h2>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">独立设计师</span>
+      <span class="pdf-item-date">2022.08 – 至今</span>
+    </div>
+    <p class="pdf-item-sub">扬中</p>
+    <p class="pdf-item-desc">独立完成项目全流程，从设计到施工全程跟进；陪同业主材料选样，确保落地效果。</p>
+  </div>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">主案设计师</span>
+      <span class="pdf-item-date">2018.11 – 2022.05</span>
+    </div>
+    <p class="pdf-item-sub">无锡 · 观塘上院吾研工作室</p>
+    <p class="pdf-item-desc">完成 10+ 别墅项目从概念到施工交底；协调深化团队，监督现场关键节点；建立材质及灯具库，提升团队效率 20%。</p>
+  </div>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">室内设计师</span>
+      <span class="pdf-item-date">2016.04 – 2018.06</span>
+    </div>
+    <p class="pdf-item-sub">无锡 · 半两设计咨询有限公司</p>
+    <p class="pdf-item-desc">完成多个商业空间规划（咖啡店、买手店等）；协助软装选型与采购清单，对接供应商控制成本。</p>
+  </div>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">助理设计师</span>
+      <span class="pdf-item-date">2014.03 – 2016.02</span>
+    </div>
+    <p class="pdf-item-sub">苏州 · 印象设计</p>
+    <p class="pdf-item-desc">协助量房、CAD 放图、SketchUp 建模及效果图后期；累计参与 20+ 项目。</p>
+  </div>
+
+  <!-- Projects -->
+  <h2 class="pdf-section-title">代表作品</h2>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">无锡 · 龙山豪庭</span>
+      <span class="pdf-item-date">2021</span>
+    </div>
+    <p class="pdf-item-sub">主案设计 | 1600㎡ 山地豪宅 | 🏅 MFID 最佳国际豪华豪宅设计</p>
+    <p class="pdf-item-desc">以现代建筑姿态立于山丘，大面积落地窗模糊室内外界限，让居住成为与自然的对话。</p>
+    <p class="pdf-link"><a href="https://www.720yun.com/t/4d5jursnka0?scene_id=21706511">720yun.com/t/4d5jursnka0</a></p>
+  </div>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">江阴 · 尚海荟</span>
+      <span class="pdf-item-date">2022</span>
+    </div>
+    <p class="pdf-item-sub">主案设计 | 500㎡ 顶层复式公寓 | 人宠共居设计</p>
+    <p class="pdf-item-desc">错层动线与定制猫道系统，实现人宠共居；每一寸空间兼顾美学与生活温度。</p>
+    <p class="pdf-link"><a href="https://www.720yun.com/t/2b8jv7smrf2?scene_id=21321464">720yun.com/t/2b8jv7smrf2</a></p>
+  </div>
+
+  <div class="pdf-item">
+    <div class="pdf-item-head">
+      <span class="pdf-item-role">无锡 · 明湖苑</span>
+      <span class="pdf-item-date"></span>
+    </div>
+    <p class="pdf-item-sub">主案设计 | 550㎡ 现代人文居所</p>
+    <p class="pdf-item-desc">以克制温暖的设计语言，将自然材质、柔和光线与流畅动线编织一体。</p>
+    <p class="pdf-link"><a href="https://www.720yun.com/t/4d5jursnka0?scene_id=21706511">720yun.com/t/4d5jursnka0</a></p>
+  </div>
+
+  <!-- Skills -->
+  <h2 class="pdf-section-title">核心技能</h2>
+  <div class="pdf-skills">
+    <span class="pdf-skill">AutoCAD</span>
+    <span class="pdf-skill">SketchUp</span>
+    <span class="pdf-skill">3ds Max + V-Ray</span>
+    <span class="pdf-skill">Photoshop</span>
+    <span class="pdf-skill">概念方案</span>
+    <span class="pdf-skill">平面布局</span>
+    <span class="pdf-skill">效果图表现</span>
+    <span class="pdf-skill">施工图深化</span>
+    <span class="pdf-skill">人体工程学</span>
+    <span class="pdf-skill">材料选配</span>
+    <span class="pdf-skill">灯光设计</span>
+    <span class="pdf-skill">软装搭配</span>
+    <span class="pdf-skill">预算估算</span>
+    <span class="pdf-skill">客户需求分析</span>
+    <span class="pdf-skill">跨专业协调</span>
+  </div>
+
+  <!-- Certs -->
+  <div class="pdf-certs">
+    <span>📜 中国室内装饰协会（CIDA）室内设计师资格</span>
+    <span>✅ Autodesk AutoCAD 认证专业人员</span>
+  </div>
+
+  <!-- Education -->
+  <div class="pdf-edu">
+    <span>上海大学 · 环境设计（室内方向）</span>
+    <span>昆山登云科技学院 · 电气自动化</span>
+  </div>
+</div>
+
+<!-- ===== JavaScript ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== Page Load =====
+  window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+  });
+
+  // ===== Mobile Nav Toggle =====
+  var navToggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', function() {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // ===== Nav scroll effect =====
+  var nav = document.getElementById('nav');
+  var sections = document.querySelectorAll('section[id]');
+  var navAnchors = navLinks.querySelectorAll('a');
+
+  function updateNav() {
+    var scrollY = window.pageYOffset;
+    if (scrollY > 10) { nav.classList.add('scrolled'); }
+    else { nav.classList.remove('scrolled'); }
+    var current = '';
+    sections.forEach(function(section) {
+      var sectionTop = section.offsetTop - 100;
+      if (scrollY >= sectionTop) { current = section.getAttribute('id'); }
+    });
+    navAnchors.forEach(function(a) {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) { a.classList.add('active'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) { requestAnimationFrame(function() { updateNav(); ticking = false; }); ticking = true; }
+  });
+
+  // ===== Scroll Reveal =====
+  var revealEls = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(function(el) { observer.observe(el); });
+
+  // ===== Count-up Animation =====
+  var countEls = document.querySelectorAll('.highlight-num[data-count]');
+  var countObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-count'), 10);
+        var duration = 1500, startTime = null;
+        function animate(timestamp) {
+          if (!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(eased * target) + '+';
+          if (progress < 1) { requestAnimationFrame(animate); }
+          else { el.textContent = target + '+'; }
+        }
+        requestAnimationFrame(animate);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(function(el) { countObserver.observe(el); });
+
+  // ===== Animate Skill Bars =====
+  var skillBars = document.querySelectorAll('.skill-bar-fill[data-width]');
+  var barObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.width = entry.target.getAttribute('data-width') + '%';
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  skillBars.forEach(function(bar) { barObserver.observe(bar); });
+
+  // ===== PDF Download =====
+  var pdfBtn = document.getElementById('pdfBtn');
+  pdfBtn.addEventListener('click', function() {
+    window.print();
+  });
+
+})();
+</script>
+
+</body>
+</html>

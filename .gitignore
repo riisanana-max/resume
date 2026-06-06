@@ -1,0 +1,7 @@
+node_modules/
+package-lock.json
+package.json
+_analyze.js
+_resize.js
+参考图*.png
+*_thumb.png
